@@ -3,32 +3,37 @@ const { createContainer, asClass, asValue, asFunction } = require("awilix");
 const config = require("../config");
 const app = require(".");
 //servicios
-const {
-    UsuarioService
-} = require('../services');
+const { UsuarioService, MatriculaService } = require("../services");
 
 //controladores
-const {
-    UsuarioController
-} = require('../controllers');
+const { UsuarioController, MatriculaController } = require("../controllers");
 
 //rutas
-const {
-    UsuarioRoutes
-} = require('../routes/index.routes');
+const { UsuarioRoutes, MatriculaRoutes } = require("../routes/index.routes");
 
-const Routes = require('../routes');
+const Routes = require("../routes");
 const container = createContainer();
-container.register({
+container
+  .register({
     app: asClass(app).singleton(),
     router: asFunction(Routes).singleton(),
     config: asValue(config),
-    }).register({
-        UsuarioService: asClass(UsuarioService).singleton()
-    }).register({
-        UsuarioController: asClass(UsuarioController.bind(UsuarioController)).singleton()
-    }).register({
-        UsuarioRoutes: asFunction(UsuarioRoutes).singleton()
-    });
+  })
+  .register({
+    UsuarioService: asClass(UsuarioService).singleton(),
+    MatriculaService: asClass(MatriculaService).singleton(),
+  })
+  .register({
+    UsuarioController: asClass(
+      UsuarioController.bind(UsuarioController)
+    ).singleton(),
+    MatriculaController: asClass(
+      MatriculaController.bind(MatriculaController)
+    ).singleton(),
+  })
+  .register({
+    UsuarioRoutes: asFunction(UsuarioRoutes).singleton(),
+    MatriculaRoutes: asFunction(MatriculaRoutes).singleton(),
+  });
 
 module.exports = container;

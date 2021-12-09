@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 require("express-async-errors");
 const { NotFoundMiddleware, ErrorMiddleware } = require("../middlewares");
-module.exports = function ({ UsuarioRoutes }) {
+module.exports = function ({ UsuarioRoutes, MatriculaRoutes }) {
   const router = express.Router();
   const apiRoutes = express.Router();
   apiRoutes
@@ -16,6 +16,7 @@ module.exports = function ({ UsuarioRoutes }) {
 
   //api routes de acuedo a cada service
   apiRoutes.use("/usuario", UsuarioRoutes);
+  apiRoutes.use("/matricula", MatriculaRoutes);
 
   ///route principal /v1/api/
   router.use("/v1/api", apiRoutes);

@@ -1,3 +1,4 @@
+const jsonwebtoken = require("jsonwebtoken");
 const { Client } = require("../config/dbconection");
 
 class UsuarioService {
@@ -73,6 +74,40 @@ class UsuarioService {
         });
       }
     });
+  }
+
+  ///verificamos si exicte el usuario
+  async verifica(req, res) {
+    try {
+      const { usuario, clave } = req.body;
+      const query = {
+        text: "SELECT usuario, nombresc FROM tbusuario WHERE usuario=$1 AND clave=$2",
+        values: [`${usuario}`, `${clave}`],
+      };
+      await Client().query(query, (err, result) => {
+        if (!err) {
+          //console.log(rows);
+          console.log(result.rows.length);
+          if (result.rows.length > 0) {
+            let data = JSON.stringify(result.rows[0]);
+            const token = jsonwebtoken.sign(data, "admin");
+            res.json({ token });
+          } else {
+            res.json("Usuario o clave incorrecta");
+          }
+        } else {
+          console.log(err);
+        }
+      });
+    } catch (error) {
+      res.status(404).send({ message: "variables incorrrectas" });
+    }
+  }
+
+  //verificar si existe el token
+  async test(req, res) {
+    console.log(req.data); //*para crear las validaciones de los roles de los usuarios
+    res.json("informacion secreta");
   }
 
   async eliminar(req, res) {

@@ -87,7 +87,6 @@ class UsuarioService {
       await Client().query(query, (err, result) => {
         if (!err) {
           //console.log(rows);
-          console.log(result.rows.length);
           if (result.rows.length > 0) {
             let data = JSON.stringify(result.rows[0]);
             const token = jsonwebtoken.sign(data, "admin");

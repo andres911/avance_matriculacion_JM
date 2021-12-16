@@ -4,17 +4,20 @@ const config = require("../config");
 const app = require(".");
 //servicios
 const {
-    UsuarioService
+    UsuarioService,
+    EstudianteService
 } = require('../services');
 
 //controladores
 const {
-    UsuarioController
+    UsuarioController,
+    EstudianteController
 } = require('../controllers');
 
 //rutas
 const {
-    UsuarioRoutes
+    UsuarioRoutes,
+    EstudianteRoutes
 } = require('../routes/index.routes');
 
 const Routes = require('../routes');
@@ -24,11 +27,14 @@ container.register({
     router: asFunction(Routes).singleton(),
     config: asValue(config),
     }).register({
-        UsuarioService: asClass(UsuarioService).singleton()
+        UsuarioService: asClass(UsuarioService).singleton(),
+        EstudianteService:asClass(EstudianteService).singleton()
     }).register({
-        UsuarioController: asClass(UsuarioController.bind(UsuarioController)).singleton()
+        UsuarioController: asClass(UsuarioController.bind(UsuarioController)).singleton(),
+        EstudianteController: asClass(EstudianteController.bind(EstudianteController)).singleton()
     }).register({
-        UsuarioRoutes: asFunction(UsuarioRoutes).singleton()
+        UsuarioRoutes: asFunction(UsuarioRoutes).singleton(),
+        EstudianteRoutes: asFunction(EstudianteRoutes).singleton()
     });
 
 module.exports = container;

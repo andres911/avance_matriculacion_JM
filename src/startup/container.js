@@ -4,37 +4,53 @@ const config = require("../config");
 const app = require(".");
 //servicios
 const {
-    UsuarioService,
-    EstudianteService
-} = require('../services');
+  UsuarioService,
+  EstudianteService,
+  MatriculaService,
+} = require("../services");
 
 //controladores
 const {
-    UsuarioController,
-    EstudianteController
-} = require('../controllers');
+  UsuarioController,
+  EstudianteController,
+  MatriculaController,
+} = require("../controllers");
 
 //rutas
 const {
-    UsuarioRoutes,
-    EstudianteRoutes
-} = require('../routes/index.routes');
+  UsuarioRoutes,
+  EstudianteRoutes,
+  MatriculaRoutes,
+} = require("../routes/index.routes");
 
-const Routes = require('../routes');
+const Routes = require("../routes");
 const container = createContainer();
-container.register({
+container
+  .register({
     app: asClass(app).singleton(),
     router: asFunction(Routes).singleton(),
     config: asValue(config),
-    }).register({
-        UsuarioService: asClass(UsuarioService).singleton(),
-        EstudianteService:asClass(EstudianteService).singleton()
-    }).register({
-        UsuarioController: asClass(UsuarioController.bind(UsuarioController)).singleton(),
-        EstudianteController: asClass(EstudianteController.bind(EstudianteController)).singleton()
-    }).register({
-        UsuarioRoutes: asFunction(UsuarioRoutes).singleton(),
-        EstudianteRoutes: asFunction(EstudianteRoutes).singleton()
-    });
+  })
+  .register({
+    UsuarioService: asClass(UsuarioService).singleton(),
+    EstudianteService: asClass(EstudianteService).singleton(),
+    MatriculaService: asClass(MatriculaService).singleton(),
+  })
+  .register({
+    UsuarioController: asClass(
+      UsuarioController.bind(UsuarioController)
+    ).singleton(),
+    EstudianteController: asClass(
+      EstudianteController.bind(EstudianteController)
+    ).singleton(),
+    MatriculaController: asClass(
+      MatriculaController.bind(MatriculaController)
+    ).singleton(),
+  })
+  .register({
+    UsuarioRoutes: asFunction(UsuarioRoutes).singleton(),
+    EstudianteRoutes: asFunction(EstudianteRoutes).singleton(),
+    MatriculaRoutes: asFunction(MatriculaRoutes).singleton(),
+  });
 
 module.exports = container;

@@ -3,14 +3,14 @@ const { Client } = require('../config/dbconection');
 class EstudianteService {
 
     async listar (req, res){
-        await Client().query('SELECT * FROM tbestudiante', (err, result) => {
+        await Client().query("SELECT idestudiante, cedula, apellidop as primer_apellido, apellidom as segundo_apellido, CONCAT(apellidop, ' ', apellidom) apellidos, nombres, direccion, referencia, telefono FROM tbestudiante", (err, result) => {
             if (err) {
                 res.status(500).json({
-                    message: 'Error al listar estudiante'
+                    message: 'Error al listar los estudiantes'
                 });
             } else {
                 res.status(200).json({
-                    message: 'Lista de estudiante',
+                    message: 'Lista de estudiantes',
                     data: result.rows
                 });
             }
@@ -20,7 +20,7 @@ class EstudianteService {
     async listarid (req, res){
         var id = req.params.Id;
         const query = {
-            text: "select cedula, apellidop as primer_apellido, apellidom as segundo_apellido, CONCAT(apellidop, ' ', apellidom) apellidos, nombres, direccion, referencia, telefono from tbestudiante where cedula = $1",
+            text: "select idestudiante, cedula, apellidop as primer_apellido, apellidom as segundo_apellido, CONCAT(apellidop, ' ', apellidom) apellidos, nombres, direccion, referencia, telefono from tbestudiante where cedula = $1",
             values: [`${id}`]
         }
         try{

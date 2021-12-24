@@ -4,9 +4,10 @@ module.exports = function ({ MatriculaController }) {
   const router = Router();
   router.post("/nuevaMatricula", MatriculaController.crearMatricula);
   router.get("/listarMatricula", MatriculaController.listarMatricula);
-  router.patch("/editarMatricula/:UserId", MatriculaController.editarMatricula);
+  router.get("/listaridMatricula/:Id", MatriculaController.listaridMatricula);
+  router.patch("/editarMatricula/:Id", MatriculaController.editarMatricula);
   router.delete(
-    "/eliminarMatricula/:UserId",
+    "/eliminarMatricula/:Id",
     MatriculaController.eliminarMatricula
   );
   return router;

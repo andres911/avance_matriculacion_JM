@@ -12,6 +12,9 @@ class MatriculaController {
   listarMatricula(req, res) {
     return _matriculaService.listar(req, res);
   }
+  listaridMatricula(req, res) {
+    return _matriculaService.listarid(req, res);
+  }
   eliminarMatricula(req, res) {
     return _matriculaService.eliminar(req, res);
   }

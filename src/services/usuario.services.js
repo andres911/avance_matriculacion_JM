@@ -14,7 +14,7 @@ class UsuarioService {
         if (err) {
           res.status(500).send({ message: "Error al crear usuario" });
         } else {
-          res.status(200).send({ message: "Canton creado" });
+          res.status(200).send({ message: "Usuario creado" });
         }
       });
     } catch (error) {

@@ -15,7 +15,19 @@ class MatriculaService {
           `${observacion}`,
         ],
       }; */
-      const { periodo, idestudiante, fechamatricula, numpapeleta, numfactura, valor, tipomatricula, estadop, observacion, tipodep, fechadep } = req.body;
+      const {
+        periodo,
+        idestudiante,
+        fechamatricula,
+        numpapeleta,
+        numfactura,
+        valor,
+        tipomatricula,
+        estadop,
+        observacion,
+        tipodep,
+        fechadep,
+      } = req.body;
       const query = {
         text: "INSERT INTO tbmatricula	(periodo, idestudiante, fechamatricula, numpapeleta, numfactura, valor, tipomatricula, estadop, observacion, tipodep, fechadep) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
         values: [
@@ -46,7 +58,19 @@ class MatriculaService {
   }
 
   async editar(req, res) {
-    const { periodo, idestudiante, fechamatricula, numpapeleta, numfactura, valor, tipomatricula, estadop, observacion, tipodep, fechadep } = req.body;
+    const {
+      periodo,
+      idestudiante,
+      fechamatricula,
+      numpapeleta,
+      numfactura,
+      valor,
+      tipomatricula,
+      estadop,
+      observacion,
+      tipodep,
+      fechadep,
+    } = req.body;
     var id = req.params.Id;
     var validate =
       periodo === undefined ||
@@ -106,43 +130,45 @@ class MatriculaService {
   }
 
   async listar(req, res) {
-    await Client().query("SELECT * FROM tbmatricula", (err, result) => {
-      if (err) {
-        res.status(500).json({
-          message: "Error al listar matriculas",
-        });
-      } else {
-        res.status(200).json({
-          message: "Lista de matriculas",
-          data: result.rows,
-        });
+    await Client().query(
+      "SELECT * FROM tbmatricula AS m JOIN tbestudiante AS e ON m.idestudiante=e.idestudiante",
+      (err, result) => {
+        if (err) {
+          res.status(500).json({
+            message: "Error al listar matriculas",
+          });
+        } else {
+          res.status(200).json({
+            data: result.rows,
+          });
+        }
       }
-    });
+    );
   }
 
-  async listarid(req, res){
+  async listarid(req, res) {
     var id = req.params.Id;
     const query = {
       text: "select cedula, nombresc, idmatricula, nummatricula, periodo, numpapeleta, numfactura, valor, tipomatricula, estadop from tbestudiante inner join tbmatricula on tbmatricula.idmatricula = tbestudiante.idestudiante where tbestudiante.cedula = $1",
-      values: [`${id}`]
-    }
+      values: [`${id}`],
+    };
     try {
       await Client().query(query, (err, result) => {
         if (err) {
-            res.status(500).send({
-                message: 'Error al encontrar al estudiante'
-            });
+          res.status(500).send({
+            message: "Error al encontrar al estudiante",
+          });
         } else {
-            res.status(200).send({
-                message: 'Estudiante encontrado',
-                data: result.rows
-            });
+          res.status(200).send({
+            message: "Estudiante encontrado",
+            data: result.rows,
+          });
         }
       });
     } catch (error) {
       res.status(404).send({
-        message: "Hubo un problema"
-      })
+        message: "Hubo un problema",
+      });
     }
   }
 

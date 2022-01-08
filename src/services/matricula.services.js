@@ -59,28 +59,29 @@ class MatriculaService {
 
   async editar(req, res) {
     const {
-      periodo,
-      idestudiante,
-      fechamatricula,
+      // periodo,
+      // idestudiante,
+      // fechamatricula,
       numpapeleta,
-      numfactura,
+      // numfactura,
       valor,
-      tipomatricula,
-      estadop,
+      // tipomatricula,
+      // estadop,
       observacion,
       tipodep,
       fechadep,
     } = req.body;
+    //const fechadep2 = new Date(fechadep); //comvertir string a date
     var id = req.params.Id;
     var validate =
-      periodo === undefined ||
-      idestudiante === undefined ||
-      fechamatricula === undefined ||
+      //periodo === undefined ||
+      //idestudiante === undefined ||
+      //fechamatricula === undefined ||
       numpapeleta === undefined ||
-      numfactura === undefined ||
+      //numfactura === undefined ||
       valor === undefined ||
-      tipomatricula === undefined ||
-      estadop === undefined ||
+      //tipomatricula === undefined ||
+      //estadop === undefined ||
       observacion === undefined ||
       tipodep === undefined ||
       fechadep === undefined ||
@@ -88,16 +89,16 @@ class MatriculaService {
         ? false
         : true;
     const query = {
-      text: "UPDATE tbmatricula SET periodo = $1, idestudiante = $2, fechamatricula = $3, numpapeleta =$4, numfactura = $5, valor = $6, tipomatricula = $7, estadop = $8, observacion = $9, tipodep = $10, fechadep = $11 where idmatricula = $12",
+      text: "UPDATE tbmatricula SET numpapeleta =$1, valor = $2, observacion = $3, tipodep = $4, fechadep = $5 where idmatricula = $6",
       values: [
-        `${periodo}`,
-        `${idestudiante}`,
-        `${fechamatricula}`,
+        // `${periodo}`,
+        // `${idestudiante}`,
+        // `${fechamatricula}`,
         `${numpapeleta}`,
-        `${numfactura}`,
+        // `${numfactura}`,
         `${valor}`,
-        `${tipomatricula}`,
-        `${estadop}`,
+        // `${tipomatricula}`,
+        // `${estadop}`,
         `${observacion}`,
         `${tipodep}`,
         `${fechadep}`,
@@ -114,6 +115,7 @@ class MatriculaService {
           } else {
             res.status(200).send({
               message: "Matricula editado",
+              es: true,
             });
           }
         });
@@ -131,7 +133,7 @@ class MatriculaService {
 
   async listar(req, res) {
     await Client().query(
-      "SELECT * FROM tbmatricula AS m JOIN tbestudiante AS e ON m.idestudiante=e.idestudiante",
+      "SELECT * FROM tbmatricula AS m JOIN tbestudiante AS e ON m.idestudiante=e.idestudiante ORDER BY e.nombresc ASC",
       (err, result) => {
         if (err) {
           res.status(500).json({

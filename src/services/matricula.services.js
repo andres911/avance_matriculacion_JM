@@ -19,29 +19,29 @@ class MatriculaService {
         periodo,
         idestudiante,
         fechamatricula,
-        numpapeleta,
-        numfactura,
-        valor,
+        npapeleta,
+        valorpapeleta,
         tipomatricula,
-        estadop,
-        observacion,
-        tipodep,
-        fechadep,
+        observar,
+        formapago,
+        fdeposito,
       } = req.body;
+      const numfactura = npapeleta;
+      const nummatricula = 2022 + idestudiante;
       const query = {
-        text: "INSERT INTO tbmatricula	(periodo, idestudiante, fechamatricula, numpapeleta, numfactura, valor, tipomatricula, estadop, observacion, tipodep, fechadep) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
+        text: "INSERT INTO tbmatricula	(periodo, idestudiante, fechamatricula, numpapeleta, numfactura, valor, tipomatricula, observacion, tipodep, fechadep, nummatricula) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
         values: [
           `${periodo}`,
           `${idestudiante}`,
           `${fechamatricula}`,
-          `${numpapeleta}`,
+          `${npapeleta}`,
           `${numfactura}`,
-          `${valor}`,
+          `${valorpapeleta}`,
           `${tipomatricula}`,
-          `${estadop}`,
-          `${observacion}`,
-          `${tipodep}`,
-          `${fechadep}`,
+          `${observar}`,
+          `${formapago}`,
+          `${fdeposito}`,
+          `${nummatricula}`,
         ],
       };
       await Client().query(query, (err, result) => {
@@ -151,7 +151,7 @@ class MatriculaService {
   async listarid(req, res) {
     var id = req.params.Id;
     const query = {
-      text: "select cedula, nombresc, idmatricula, nummatricula, periodo, numpapeleta, numfactura, valor, tipomatricula, estadop from tbestudiante inner join tbmatricula on tbmatricula.idmatricula = tbestudiante.idestudiante where tbestudiante.cedula = $1",
+      text: "select cedula, nombresc, idmatricula, nummatricula, periodo, numpapeleta, numfactura, valor, tipomatricula, estadop from tbestudiante inner join tbmatricula on tbmatricula.idestudiante = tbestudiante.idestudiante where tbestudiante.cedula = $1",
       values: [`${id}`],
     };
     try {

@@ -133,7 +133,7 @@ class MatriculaService {
 
   async listar(req, res) {
     await Client().query(
-      "SELECT * FROM tbmatricula AS m JOIN tbestudiante AS e ON m.idestudiante=e.idestudiante ORDER BY e.nombresc ASC",
+      "SELECT * FROM tbmatricula AS m JOIN tbestudiante AS e ON m.idestudiante=e.idestudiante ORDER BY e.nombresc ASC, m.fechamatricula DESC",
       (err, result) => {
         if (err) {
           res.status(500).json({

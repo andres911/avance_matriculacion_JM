@@ -174,6 +174,39 @@ class MatriculaService {
     }
   }
 
+  async listarfecha(req, res){
+    //new Date( fecha_inicio.req.params, fecha_hasta.req.params);
+
+    var fecha_inicio = req.params;
+    var fecha_hasta = req.params;
+
+    const query = {
+      text: "select cedula, nombresc, nombresp, nombresm, direccion, nummatricula, periodo, fechamatricula, valor, tipomatricula, observacion, fechadep from tbmatricula inner join tbestudiante on tbmatricula.idmatricula = tbestudiante.idestudiante where fechamatricula between $1 and $2",
+      values: [
+        `${fecha_inicio}`,
+        `${fecha_hasta}`
+      ]
+    };
+    try {
+      await Client().query(query, (err, result) => {
+        if (err) {
+          res.status(500).send({
+            message: "Error al encontrar al estudiante",
+          });
+        } else {
+          res.status(200).send({
+            message: "Estudiante encontrado",
+            data: result.rows,
+          });
+        }
+      });
+    } catch (error) {
+      res.status(404).send({
+        message: "Hubo un problema",
+      });
+    }
+  }
+
   async eliminar(req, res) {
     var id = req.params.Id;
     const query = {
